@@ -23,7 +23,7 @@ async function getStudent(req, res) {
 }
 async function getAllStudent(req, res) {
     const students = await Student.find().exec();
-    return res.json('hello world');
+    return res.json(students);
 }
 async function updateStudent(req, res) {
     const { id } = req.params;
