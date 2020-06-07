@@ -1,14 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const studentRouter = require('./routers/student');
-const courseRouter = require('./routers/course');
-const userRouter = require('./routers/user');
-const authRouter = require('./routers/auth');
-const authGuard = require('./middlewares/authGuard');
+const userRouter = require("./routers/user");
+const authRouter = require("./routers/auth");
+const authGuard = require("./middlewares/authGuard");
+const orderRouter = require("./routers/order");
+const clientRouter = require("./routers/client");
+const builderRouter = require("./routers/builder");
 
-router.use('/students', studentRouter);
-router.use('/courses', authGuard, courseRouter);
-router.use('/users', userRouter);
-router.use('/auth', authRouter);
+router.use("/users", userRouter);
+router.use("/auth", authRouter);
+
+router.use("/clients", clientRouter);
+router.use("/builders", builderRouter);
+router.use("/orders", orderRouter);
 
 module.exports = router;

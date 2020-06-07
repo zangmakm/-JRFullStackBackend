@@ -14,5 +14,6 @@ exports.connectToDB = () => {
   return mongoose.connect(productionConnectString, {
     useNewUrlParser: true,
     useCreateIndex: true,
+    useUnifiedTopology: true,
   });
 };
