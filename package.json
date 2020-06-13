@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "pm2-runtime start config/ecosystem.config.js --env production",
-    "dev": "nodemon run ./src/index.js"
+    "dev": "nodemon run ./src/index.js",
+    "debug":"nodemon --inspect src/index.js"
   },
   "keywords": [],
   "author": "",

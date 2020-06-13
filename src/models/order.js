@@ -13,12 +13,12 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
       default: "NEW",
-      enum: ["NEW", "ASSIGNED", "COMPLETED", "CANCEL"],
+      enum: ["NEW", "ASSIGNED", "COMPLETED", "CANCEL_CLIENT","CANCEL_BUILDER"],
     },
     storeys: {
-      type: String,
+      type: Number,
       required: true,
-      enum: ["Single", "Double"],
+      enum: [1, 2],
     },
     bedrooms: {
       type: Number,
@@ -40,17 +40,14 @@ const schema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    postcode: {
-      type: Number,
-      required: true,
-    },
     postDate: {
       type: Date,
       default: Date.now,
     },
     dueDate: {
       type: Date,
-      default: Date(Date.now() + 180 * 24 * 60 * 60 * 1000),
+      default: Date(Date.now() + 604800000),
+      //default: Date(Date.now() + 180 * 24 * 60 * 60 * 1000),
     },
     description: {
       type: String,
