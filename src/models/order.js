@@ -9,6 +9,10 @@ const schema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Business",
     },
+    comments:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+    },
     status: {
       type: String,
       required: true,
@@ -53,6 +57,12 @@ const schema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    star:{
+		type:Number,
+	},
+	comment:{
+		type:String,
+	},
   },
   {
     toJSON: {

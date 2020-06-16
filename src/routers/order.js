@@ -5,7 +5,8 @@ const { getAllOrders,
     addOrder, 
     updateOrder, 
     updateClientOrderStatus,
-    updateBuilderOrderStatus } = require("../controllers/order");
+    updateBuilderOrderStatus,
+    addOrderComment } = require("../controllers/order");
     
 //get all
 router.get("/", getAllOrders);
@@ -22,5 +23,7 @@ router.patch("/:orderId/client/:clientId", updateClientOrderStatus);
 //update client's order status
 //status?COMPLETED
 router.patch("/:orderId/builder/:builderId", updateBuilderOrderStatus);
+//add comment of client's order 
+router.post("/:orderId/comment", addOrderComment);
 
 module.exports = router;

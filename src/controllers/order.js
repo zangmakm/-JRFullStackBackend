@@ -1,6 +1,8 @@
 const orderModel = require("../models/order");
 const clientModel = require("../models/client");
 const builderModel = require("../models/builder");
+const commentModel = require("../models/comment");
+
 const {
     convertUpdateBody,
     formatResponse
@@ -10,13 +12,13 @@ var ObjectID = require('mongodb').ObjectID;
 
 async function getAllOrders(req, res) {
   const orders = await orderModel.find({ status: "NEW" });
-  res.json(orders);
+  return formatResponse(res,orders);
 }
 
 async function getOrder(req, res) {
   const { orderId } = req.params;
   const order = await orderModel.findById(orderId).exec();
-  res.json(order);
+  return formatResponse(res,order);
 }
 
 async function addOrder(req, res) {
@@ -45,14 +47,14 @@ async function addOrder(req, res) {
     });
     const client = await clientModel.findById(clientId).exec();
     if (!client) {
-        return res.status(404).json("client not found");
+        return formatResponse(res, 'Client not found', 404);
     }
     order.postBy = clientId;
     await order.save();
     client.orders.addToSet(order._id);
     await client.save();
     //console.log(order);
-    return res.json(order);
+    return formatResponse(res,order);
 }
 
 async function updateOrder(req,res) {
@@ -73,10 +75,10 @@ async function updateOrder(req,res) {
     );
 
     if (!updateOrder) {
-        return formatResponse(res, 404, 'Order not found', null);
+        return formatResponse(res, 'Order not found', 404);
       }
     
-      return formatResponse(res, 200, null, updateOrder);
+      return formatResponse(res, updateOrder);
 
 }
 
@@ -130,11 +132,54 @@ async function updateBuilderOrderStatus(req,res) {
     }
 }
 
+async function addOrderComment(req,res) {
+    const {orderId} = req.params;
+    const {star,comments} = req.body;
+
+    const order = await orderModel.findById(orderId)
+                    .populate("postBy","firstName lastName")
+                    .exec();
+    if (!order) {
+        return formatResponse(res, 'Order not found', 404);
+    }
+    if (order.status !== DONE) {
+        return formatResponse(res, 'Order not finish yet',  400);
+    }
+    order.star = star;
+    order.comment = comments;
+    await order.save();
+
+    const clientFullName = `${order.postBy.firstName} ${order.postBy.lastName}`;
+    const comment = new commentModel({
+        star:star,
+        comment:comments,
+        clientName:clientFullName,
+        order:order._id,
+        builder:order.takenBy,
+    });
+
+    await comment.save();
+
+    const commentId = comment._id;
+    const builderId = order.takenBy;
+    const builder = await builderModel.findById(builderId).exec();
+
+    if(!builder){
+        return formatResponse(res, 'Builder not found', builder);
+    }
+
+    builder.comments.addToSet(commentId);
+    await builder.save();
+
+    return formatResponse(res, comment);
+}
+
 module.exports = {
   getAllOrders,
   getOrder,
   addOrder,
   updateOrder,
   updateClientOrderStatus,
-  updateBuilderOrderStatus
+  updateBuilderOrderStatus,
+  addOrderComment
 };
