@@ -7,17 +7,17 @@ const schema = new mongoose.Schema(
     },
     takenBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Business",
+      ref: "Builder",
     },
-    comments:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
+    comments: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
     },
     status: {
       type: String,
       required: true,
       default: "NEW",
-      enum: ["NEW", "ASSIGNED", "COMPLETED", "CANCEL_CLIENT","CANCEL_BUILDER"],
+      enum: ["NEW", "ASSIGNED", "COMPLETED", "CANCEL_CLIENT", "CANCEL_BUILDER"],
     },
     storeys: {
       type: Number,
@@ -32,7 +32,7 @@ const schema = new mongoose.Schema(
     bathrooms: {
       type: Number,
       required: true,
-      enum: [2, 3, 4],
+      enum: [1, 2, 3, 4],
     },
     garages: {
       type: Number,
@@ -57,12 +57,12 @@ const schema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    star:{
-		type:Number,
-	},
-	comment:{
-		type:String,
-	},
+    star: {
+      type: Number,
+    },
+    comment: {
+      type: String,
+    },
   },
   {
     toJSON: {

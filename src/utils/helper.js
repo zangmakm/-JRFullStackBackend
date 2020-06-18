@@ -1,39 +1,71 @@
 function convertUpdateBody(body, keys) {
-	const newBody = {};
-	keys.forEach(k => {
-	  if (body[k]) {
-		newBody[k] = body[k];
-	  }
-	});
-	return newBody;
-  }
+  const newBody = {};
+  keys.forEach((k) => {
+    if (body[k]) {
+      newBody[k] = body[k];
+    }
+  });
+  return newBody;
+}
 
-//   function formatResponse(res, code, message, finalPostData) {
-// 	res.status(code).json({
-// 		status: code === 200 ? "success" : "error",
-// 		message: message,
-// 		data: finalPostData
-// 	});
-// }
+function convertQuery(query, total) {
+  const pagination = convertPagination(query, total);
+  const sort = convertSortQuery(query.sort);
+  const search = query.q;
+  return { pagination, sort, search };
+}
+
+function convertPagination(query, count) {
+  if (count === 0) {
+    return { page: 1, pageSize: 10, pages: 1 };
+  }
+  let { pageSize, page } = query;
+  pageSize = parseInt(query.pageSize) || 10;
+  page = parseInt(query.page) || 1;
+  if (page < 1) {
+    page = 1;
+  }
+  const pages = Math.ceil(count / pageSize);
+  if (page > pages) {
+    page = pages;
+  }
+  return { page, pageSize, pages };
+}
+
+function convertSortQuery(sortQuery) {
+  const sort = {};
+  if (sortQuery) {
+    const keys = sortQuery.split(",");
+    keys.forEach((key) => {
+      if (key.includes("-")) {
+        sort[key.replace("-", "")] = -1;
+      } else {
+        sort[key] = 1;
+      }
+    });
+  }
+  return sort;
+}
 
 function formatResponse(res, payload, code = 200) {
-	const response = { code };
-	if (code < 400) {
-	  if (payload.data) {
-		response.data = payload.data;
-	  } else {
-		response.data = payload;
-	  }
-	} else {
-	  response.error = payload;
-	}
-	if (payload.pagination) {
-	  response.pagination = payload.pagination;
-	}
-	return res.status(code).send(response);
+  const response = { code };
+  if (code < 400) {
+    if (payload.data) {
+      response.data = payload.data;
+    } else {
+      response.data = payload;
+    }
+  } else {
+    response.error = payload;
   }
+  if (payload.pagination) {
+    response.pagination = payload.pagination;
+  }
+  return res.status(code).send(response);
+}
 
-  module.exports = {
-	convertUpdateBody,
-	formatResponse
-  };  
+module.exports = {
+  convertUpdateBody,
+  formatResponse,
+  convertQuery,
+};

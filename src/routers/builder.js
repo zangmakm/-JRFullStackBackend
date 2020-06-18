@@ -4,6 +4,8 @@ const {
   getAllBuilders,
   getBuilder,
   addBuilder,
+  updateBuilder,
+  getBuilderOrders,
 } = require("../controllers/builder");
 //get all
 router.get("/", getAllBuilders);
@@ -11,6 +13,9 @@ router.get("/", getAllBuilders);
 router.get("/:builderId", getBuilder);
 //add new builder
 router.post("/", addBuilder);
-//cancel builder
+//update client order
+router.put("/:builderId", updateBuilder);
+//get client orders by status
+router.get("/:builderId/orders", getBuilderOrders);
 
 module.exports = router;
