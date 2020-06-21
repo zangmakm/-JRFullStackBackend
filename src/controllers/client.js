@@ -1,5 +1,6 @@
 const clientModel = require("../models/client");
 const orderModel = require("../models/order");
+const userModel = require("../models/user");
 const {
   formatResponse,
   convertQuery,
@@ -27,7 +28,19 @@ async function addClient(req, res) {
     email,
     postcode,
   });
+
+  const user = await userModel.findById(req.user.id).exec();
+  if (user.client) {
+    return formatResponse(
+      res,
+      "Client cannot be registered twice with the same username",
+      400
+    );
+  }
+  client.user = req.user.id;
   await client.save();
+  user.client = client._id;
+  await user.save();
   return formatResponse(res, client);
 }
 

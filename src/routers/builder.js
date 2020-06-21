@@ -7,15 +7,16 @@ const {
   updateBuilder,
   getBuilderOrders,
 } = require("../controllers/builder");
+const { authGuard, authGuardBuilder } = require("../middlewares/authGuard");
 //get all
 router.get("/", getAllBuilders);
 //get specified builder
-router.get("/:builderId", getBuilder);
+router.get("/:builderId", authGuardBuilder, getBuilder);
 //add new builder
-router.post("/", addBuilder);
+router.post("/", authGuard, authGuardBuilder, addBuilder);
 //update client order
-router.put("/:builderId", updateBuilder);
+router.put("/:builderId", authGuardBuilder, updateBuilder);
 //get client orders by status
-router.get("/:builderId/orders", getBuilderOrders);
+router.get("/:builderId/orders", authGuardBuilder, getBuilderOrders);
 
 module.exports = router;

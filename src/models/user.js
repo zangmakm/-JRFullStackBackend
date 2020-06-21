@@ -10,6 +10,19 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  client: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Client",
+  },
+  builder: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Builder",
+  },
+  role: {
+    type: String,
+    required: true,
+    enum: ["client", "builder"],
+  },
 });
 
 schema.methods.hashPassword = async function () {
@@ -17,8 +30,8 @@ schema.methods.hashPassword = async function () {
 };
 
 schema.methods.validatePassword = async function (password) {
-  const validatePassword = await bcrypt.compare(password, this.password);
-  return validatePassword;
+  const validPassword = await bcrypt.compare(password, this.password);
+  return validPassword;
 };
 
 const Model = mongoose.model("User", schema);

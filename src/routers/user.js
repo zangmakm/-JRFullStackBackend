@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { addUser } = require("../controllers/user");
+const { addUser, updateUser, getSelf } = require("../controllers/user");
+const { authGuard } = require("../middlewares/authGuard");
 
 router.post("/", addUser);
+router.put("/:userId", authGuard, updateUser);
+router.get("/me", authGuard, getSelf);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const builderModel = require("../models/builder");
 const orderModel = require("../models/order");
+const userModel = require("../models/user");
 const {
   formatResponse,
   convertQuery,
@@ -21,6 +22,7 @@ async function getBuilder(req, res) {
   }
   res.json(builder);
 }
+
 async function addBuilder(req, res) {
   const {
     abn,
@@ -40,7 +42,20 @@ async function addBuilder(req, res) {
     postcode,
     description,
   });
+
+  const user = await userModel.findById(req.user.id).exec();
+  if (user.builder) {
+    return responseFormatter(
+      res,
+      400,
+      "Builder cannot be registered twice with the same username",
+      null
+    );
+  }
+  builder.user = req.user.id;
   await builder.save();
+  user.builder = builder._id;
+  await user.save();
   return formatResponse(res, builder);
 }
 

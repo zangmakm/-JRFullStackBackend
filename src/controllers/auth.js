@@ -1,19 +1,31 @@
 const User = require("../models/user");
 const { generateToken } = require("../utils/jwt");
+const { formatResponse } = require("../utils/helper");
 
 async function loginUser(req, res) {
   const { username, password } = req.body;
-  const exitornot = await User.findOne({ username }).exec();
-  if (!exitornot) {
-    return res.status(404).json("username is not correct");
+  const existingUser = await User.findOne({ username }).exec();
+  if (!existingUser) {
+    return formatResponse(res, "Invalidate username or password.", 404);
   }
-  const validatePassword = await exitornot.validatePassword(password);
+  const validatePassword = await existingUser.validatePassword(password);
   if (!validatePassword) {
-    return res.status(404).json("password is not correct");
+    return formatResponse(res, "Invalidate username or password.", 404);
   }
 
-  const token = generateToken(exitornot._id);
-  return res.json({ username, token });
+  const token = generateToken({
+    id: existingUser._id,
+    role: existingUser.role,
+  });
+
+  return formatResponse(res, {
+    userId: existingUser._id,
+    userName: existingUser.username,
+    userRole: existingUser.role,
+    token,
+    clientId: existingUser.client,
+    builderId: existingUser.builder,
+  });
 }
 
 module.exports = {

@@ -9,6 +9,10 @@ const schema = new mongoose.Schema(
         ref: "Order",
       },
     ],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     firstName: {
       type: String,
       required: true,

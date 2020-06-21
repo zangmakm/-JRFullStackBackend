@@ -7,13 +7,20 @@ const schema = new mongoose.Schema({
       ref: "Order",
     },
   ],
-  comments:[{
-      type:mongoose.Schema.Types.ObjectId,
-      ref:"Comment",
-  }],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   abn: {
     type: Number,
     required: true,
+    trim: true,
   },
   builderName: {
     type: String,
