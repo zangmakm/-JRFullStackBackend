@@ -13,7 +13,7 @@ router.get("/", getAllBuilders);
 //get specified builder
 router.get("/:builderId", authGuardBuilder, getBuilder);
 //add new builder
-router.post("/", authGuard, authGuardBuilder, addBuilder);
+router.post("/", addBuilder);
 //update client order
 router.put("/:builderId", authGuardBuilder, updateBuilder);
 //get client orders by status

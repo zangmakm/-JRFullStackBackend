@@ -11,7 +11,7 @@ const { authGuard, authGuardClient } = require("../middlewares/authGuard");
 //get specified client
 router.get("/:clientId", getClient);
 //add new client
-router.post("/", authGuard, authGuardClient, addClient);
+router.post("/", addClient);
 //update client order
 router.put("/:clientId", authGuardClient, updateClient);
 //get client orders by status
