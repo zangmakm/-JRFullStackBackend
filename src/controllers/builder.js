@@ -45,17 +45,17 @@ async function addBuilder(req, res) {
   });
 
   const user = await userModel.findById(userId).exec();
-  if (user.builder) {
-    return responseFormatter(
-      res,
-      400,
-      "Builder cannot be registered twice with the same username",
-      null
-    );
-  }
+  //   if (user.builder) {
+  //     return responseFormatter(
+  //       res,
+  //       400,
+  //       "Builder cannot be registered twice with the same username",
+  //       null
+  //     );
+  //   }
   builder.user = userId;
   await builder.save();
-  user.builder = builder._id;
+  user.role = builder._id;
   await user.save();
   return formatResponse(res, builder);
 }
