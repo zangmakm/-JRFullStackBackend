@@ -25,6 +25,7 @@ async function getBuilder(req, res) {
 
 async function addBuilder(req, res) {
   const {
+    userId,
     abn,
     builderName,
     mobile,
@@ -43,7 +44,7 @@ async function addBuilder(req, res) {
     description,
   });
 
-  const user = await userModel.findById(req.user.id).exec();
+  const user = await userModel.findById(userId).exec();
   if (user.builder) {
     return responseFormatter(
       res,
@@ -52,7 +53,7 @@ async function addBuilder(req, res) {
       null
     );
   }
-  builder.user = req.user.id;
+  builder.user = userId;
   await builder.save();
   user.builder = builder._id;
   await user.save();

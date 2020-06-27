@@ -22,6 +22,7 @@ async function addUser(req, res) {
   return formatResponse(
     res,
     {
+      userId: user._id,
       userName: user.username,
       userRole: user.role,
       token,

@@ -19,7 +19,15 @@ async function getClient(req, res) {
 }
 
 async function addClient(req, res) {
-  const { firstName, lastName, gender, mobile, email, postcode } = req.body;
+  const {
+    userId,
+    firstName,
+    lastName,
+    gender,
+    mobile,
+    email,
+    postcode,
+  } = req.body;
   const client = new clientModel({
     firstName,
     lastName,
@@ -29,7 +37,7 @@ async function addClient(req, res) {
     postcode,
   });
 
-  const user = await userModel.findById(req.user.id).exec();
+  const user = await userModel.findById(userId).exec();
   if (user.client) {
     return formatResponse(
       res,
@@ -37,7 +45,7 @@ async function addClient(req, res) {
       400
     );
   }
-  client.user = req.user.id;
+  client.user = userId;
   await client.save();
   user.client = client._id;
   await user.save();
