@@ -11,12 +11,12 @@ const { authGuard, authGuardBuilder } = require("../middlewares/authGuard");
 //get all
 router.get("/", getAllBuilders);
 //get specified builder
-router.get("/:builderId", authGuardBuilder, getBuilder);
+router.get("/:builderId", authGuard, authGuardBuilder, getBuilder);
 //add new builder
-router.post("/", addBuilder);
+router.post("/", authGuard, addBuilder);
 //update client order
-router.put("/:builderId", authGuardBuilder, updateBuilder);
+router.put("/:builderId", authGuard, authGuardBuilder, updateBuilder);
 //get client orders by status
-router.get("/:builderId/orders", authGuardBuilder, getBuilderOrders);
+router.get("/:builderId/orders", authGuard, authGuardBuilder, getBuilderOrders);
 
 module.exports = router;

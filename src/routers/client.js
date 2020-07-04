@@ -9,12 +9,12 @@ const {
 const { authGuard, authGuardClient } = require("../middlewares/authGuard");
 
 //get specified client
-router.get("/:clientId", getClient);
+router.get("/:clientId", authGuard, getClient);
 //add new client
-router.post("/", addClient);
+router.post("/", authGuard, addClient);
 //update client order
-router.put("/:clientId", authGuardClient, updateClient);
+router.put("/:clientId", authGuard, authGuardClient, updateClient);
 //get client orders by status
-router.get("/:clientId/orders", authGuardClient, getClientOrders);
+router.get("/:clientId/orders", authGuard, authGuardClient, getClientOrders);
 
 module.exports = router;

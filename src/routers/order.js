@@ -10,23 +10,25 @@ const {
   addOrderComment,
 } = require("../controllers/order");
 const {
+  authGuard,
   authGuardClient,
   authGuardBuilder,
 } = require("../middlewares/authGuard");
 
 //get all new orders for builder
-router.get("/", authGuardBuilder, getAllNewOrders);
+router.get("/", authGuard, authGuardBuilder, getAllNewOrders);
 //get specified order
-router.get("/:orderId", getOrder);
+router.get("/:orderId", authGuard, getOrder);
 //add new order
-router.post("/", authGuardClient, addOrder);
+router.post("/", authGuard, authGuardClient, addOrder);
 //update order
 //orderId?XXXXX
-router.put("/:orderId", authGuardClient, updateOrder);
+router.put("/:orderId", authGuard, authGuardClient, updateOrder);
 //update client's order status
 //status?COMPLETED
 router.patch(
   "/:orderId/client/:clientId",
+  authGuard,
   authGuardClient,
   updateClientOrderStatus
 );
