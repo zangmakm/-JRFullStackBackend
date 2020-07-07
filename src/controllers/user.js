@@ -32,7 +32,7 @@ async function addUser(req, res) {
 }
 
 async function updateUser(req, res) {
-  const { userId } = req.user.id;
+  const { userId } = req.params;
   const { oldPassword, newPassword, doublePassword } = req.body;
   const existingUser = await userModel.findById(userId).exec();
   if (!existingUser) {
