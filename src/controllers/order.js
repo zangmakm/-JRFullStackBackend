@@ -32,7 +32,10 @@ async function getAllNewOrders(req, res) {
 
 async function getOrder(req, res) {
   const { orderId } = req.params;
-  const order = await orderModel.findById(orderId).exec();
+  const order = await orderModel
+    .findById(orderId)
+    .populate("postBy takenBy")
+    .exec();
   return formatResponse(res, order);
 }
 
