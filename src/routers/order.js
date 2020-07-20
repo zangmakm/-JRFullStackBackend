@@ -36,10 +36,11 @@ router.patch(
 //status?COMPLETED
 router.patch(
   "/:orderId/builder/:builderId",
+  authGuard,
   authGuardBuilder,
   updateBuilderOrderStatus
 );
 //add comment of client's order
-router.post("/:orderId/comment", authGuardClient, addOrderComment);
+router.post("/:orderId/comment", authGuard, authGuardClient, addOrderComment);
 
 module.exports = router;
