@@ -71,7 +71,6 @@ async function addOrder(req, res) {
   await order.save();
   client.orders.addToSet(order._id);
   await client.save();
-  //console.log(order);
   return formatResponse(res, order);
 }
 
@@ -124,22 +123,18 @@ async function updateClientOrderStatus(req, res) {
 async function updateBuilderOrderStatus(req, res) {
   const { orderId, builderId } = req.params;
   const { status } = req.query;
-  console.log("orderId:", orderId);
-  console.log("builderId:", builderId, status);
-  console.log("status:", status);
   const order = await orderModel.findById(orderId).populate("takenBy").exec();
   if (!order) {
     return formatResponse(res, "Order not found", 404);
   }
-  console.log("order:", order);
+
   const builder = await builderModel.findById(builderId).exec();
   if (!builder) {
     return formatResponse(res, "builder not found", 404);
   }
-  console.log("builder:", builder);
+
   if (order.status === "NEW" && status === "ASSIGNED") {
     builder.orders.addToSet(order._id);
-    console.log("builder.orders:", builder.orders);
     order.takenBy = builderId;
     order.status = status;
     await order.save();
@@ -165,7 +160,7 @@ async function addOrderComment(req, res) {
   if (!order) {
     return formatResponse(res, "Order not found", 404);
   }
-  if (order.status !== DONE) {
+  if (order.status !== "COMPLETED") {
     return formatResponse(res, "Order not finish yet", 400);
   }
   order.star = star;
