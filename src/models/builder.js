@@ -53,6 +53,10 @@ const schema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  photo: {
+    type: String,
+    default: "https://www.lightningdesignsystem.com/assets/images/avatar1.jpg",
+  },
   description: {
     type: String,
     trim: true,

@@ -32,6 +32,7 @@ async function addBuilder(req, res) {
     email,
     address,
     postcode,
+    photo,
     description,
   } = req.body;
   const builder = new builderModel({
@@ -41,6 +42,7 @@ async function addBuilder(req, res) {
     email,
     address,
     postcode,
+    photo,
     description,
   });
 
@@ -69,6 +71,7 @@ async function updateBuilder(req, res) {
     "email",
     "address",
     "postcode",
+    "photo",
     "description",
   ];
 

@@ -27,6 +27,7 @@ async function addClient(req, res) {
     mobile,
     email,
     postcode,
+    photo,
   } = req.body;
   const client = new clientModel({
     firstName,
@@ -35,6 +36,7 @@ async function addClient(req, res) {
     mobile,
     email,
     postcode,
+    photo,
   });
 
   const user = await userModel.findById(userId).exec();
@@ -61,6 +63,7 @@ async function updateClient(req, res) {
     "mobile",
     "email",
     "postcode",
+    "photo",
   ];
 
   const updateClient = await clientModel.updateOne(

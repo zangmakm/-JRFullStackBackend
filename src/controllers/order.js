@@ -155,7 +155,7 @@ async function addOrderComment(req, res) {
 
   const order = await orderModel
     .findById(orderId)
-    .populate("postBy", "firstName lastName")
+    .populate("postBy", "firstName lastName photo")
     .exec();
   if (!order) {
     return formatResponse(res, "Order not found", 404);
@@ -172,6 +172,7 @@ async function addOrderComment(req, res) {
     star: star,
     comment: comments,
     clientName: clientFullName,
+    clientPhoto: order.postBy.photo,
     order: order._id,
     builder: order.takenBy,
   });
