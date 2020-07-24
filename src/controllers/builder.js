@@ -117,7 +117,7 @@ async function getBuilderOrders(req, res) {
     .sort(sort)
     .skip(start)
     .limit(pageSize)
-    .populate("takenBy")
+    .populate("postBy takenBy")
     .exec();
 
   return formatResponse(res, { data: orders, pagination });
