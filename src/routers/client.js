@@ -18,7 +18,7 @@ router.post("/", authGuard, addClient);
 router.put("/:clientId", authGuard, authGuardClient, updateClient);
 //get client orders by status
 router.get("/:clientId/orders", authGuard, authGuardClient, getClientOrders);
-//upload avatar
+//upload avatar again
 router.put(
   "/:clientId/avatar",
   authGuard,
