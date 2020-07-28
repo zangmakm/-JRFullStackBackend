@@ -19,12 +19,12 @@ router.put("/:clientId", authGuard, authGuardClient, updateClient);
 //get client orders by status
 router.get("/:clientId/orders", authGuard, authGuardClient, getClientOrders);
 //upload avatar again
-router.put(
-  "/:clientId/avatar",
-  authGuard,
-  authGuardClient,
-  uploadImage("avatar"),
-  updateAvatar
-);
+// router.put(
+//   "/:clientId/avatar",
+//   authGuard,
+//   authGuardClient,
+//   uploadImage("avatar"),
+//   updateAvatar
+// );
 
 module.exports = router;

@@ -123,28 +123,28 @@ async function getBuilderOrders(req, res) {
   return formatResponse(res, { data: orders, pagination });
 }
 
-async function updateAvatar(req, res) {
-  const { builderId } = req.params;
-  console.log("file:", req.file);
-  if (!req.file) {
-    return formatResponse(res, "Image missing", 400);
-  }
-  const builder = await builder.findById(builderId).exec();
+// async function updateAvatar(req, res) {
+//   const { builderId } = req.params;
+//   console.log("file:", req.file);
+//   if (!req.file) {
+//     return formatResponse(res, "Image missing", 400);
+//   }
+//   const builder = await builder.findById(builderId).exec();
 
-  if (!builder) {
-    await deleteImage(req.file.key);
-    return formatResponse(res, "Builder not found", 404);
-  }
-  if (!builder.user || builder.user._id.toString() !== req.user.id) {
-    await deleteImage(req.file.key);
-    return formatResponse(res, "Access denied", 401);
-  }
+//   if (!builder) {
+//     await deleteImage(req.file.key);
+//     return formatResponse(res, "Builder not found", 404);
+//   }
+//   if (!builder.user || builder.user._id.toString() !== req.user.id) {
+//     await deleteImage(req.file.key);
+//     return formatResponse(res, "Access denied", 401);
+//   }
 
-  builder.photo = req.file.location;
-  await builder.save();
+//   builder.photo = req.file.location;
+//   await builder.save();
 
-  return formatResponse(res, builder.photo, 200);
-}
+//   return formatResponse(res, builder.photo, 200);
+// }
 
 module.exports = {
   getAllBuilders,
@@ -152,5 +152,5 @@ module.exports = {
   addBuilder,
   updateBuilder,
   getBuilderOrders,
-  updateAvatar,
+  //updateAvatar,
 };
