@@ -22,12 +22,12 @@ router.put("/:builderId", authGuard, authGuardBuilder, updateBuilder);
 //get client orders by status
 router.get("/:builderId/orders", authGuard, authGuardBuilder, getBuilderOrders);
 //upload avatar
-// router.put(
-//   "/:builderId/avatar",
-//   authGuard,
-//   authGuardBuilder,
-//   uploadImage("avatar"),
-//   updateAvatar
-// );
+router.put(
+  "/:builderId/avatar",
+  authGuard,
+  authGuardBuilder,
+  uploadImage("avatar"),
+  updateAvatar
+);
 
 module.exports = router;

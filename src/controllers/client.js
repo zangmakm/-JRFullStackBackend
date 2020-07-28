@@ -134,7 +134,7 @@ async function updateAvatar(req, res) {
   }
 
   client.photo = req.file.location;
-  console.log("client.photo:", req.file.location);
+
   await client.save();
 
   return formatResponse(res, client.photo, 200);
