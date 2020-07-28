@@ -116,6 +116,7 @@ async function getClientOrders(req, res) {
 }
 
 async function updateAvatar(req, res) {
+  console.log("begin3:");
   const { clientId } = req.params;
   console.log("clientId:", clientId);
   console.log("req.file:", req.file);

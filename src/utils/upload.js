@@ -13,6 +13,7 @@ aws.config.update({
 const s3 = new aws.S3();
 
 const uploadImage = (fieldName) =>
+  //console.log("begin3:");
   multer({
     storage: multerS3({
       s3,
@@ -26,6 +27,7 @@ const uploadImage = (fieldName) =>
       fileSize: 1024 * 1024,
     },
   }).single(fieldName);
+//console.log("begin4:");
 
 const deleteImage = (key) => {
   new Promise((res, rej) => {
