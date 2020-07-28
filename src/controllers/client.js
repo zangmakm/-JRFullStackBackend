@@ -117,11 +117,13 @@ async function getClientOrders(req, res) {
 
 async function updateAvatar(req, res) {
   const { clientId } = req.params;
+  console.log("clientId:", clientId);
+  console.log("req.file:", req.file);
   if (!req.file) {
     return formatResponse(res, "Image missing", 400);
   }
   const client = await client.findById(clientId).exec();
-
+  console.log("client:", client);
   if (!client) {
     await deleteImage(req.file.key);
     return formatResponse(res, "Client not found", 404);
@@ -130,8 +132,10 @@ async function updateAvatar(req, res) {
     await deleteImage(req.file.key);
     return formatResponse(res, "Access denied", 401);
   }
-
+  console.log("client.user._id:", client.user._id);
+  console.log("req.user.id:", req.user.id);
   client.photo = req.file.location;
+  console.log("client.photo:", req.file.location);
   await client.save();
 
   return formatResponse(res, client.photo, 200);
