@@ -30,6 +30,7 @@ const schema = new mongoose.Schema(
     },
     mobile: {
       type: Number,
+      required: true,
     },
     email: {
       type: String,

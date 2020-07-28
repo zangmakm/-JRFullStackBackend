@@ -29,7 +29,7 @@ const schema = new mongoose.Schema({
   },
   mobile: {
     type: Number,
-    trim: true,
+    required: true,
   },
   email: {
     type: String,

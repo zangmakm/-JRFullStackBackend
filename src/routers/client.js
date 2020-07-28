@@ -5,8 +5,10 @@ const {
   addClient,
   updateClient,
   getClientOrders,
+  updateAvatar,
 } = require("../controllers/client");
 const { authGuard, authGuardClient } = require("../middlewares/authGuard");
+const { uploadImage } = require("../utils/upload");
 
 //get specified client
 router.get("/:clientId", authGuard, getClient);
@@ -16,5 +18,13 @@ router.post("/", authGuard, addClient);
 router.put("/:clientId", authGuard, authGuardClient, updateClient);
 //get client orders by status
 router.get("/:clientId/orders", authGuard, authGuardClient, getClientOrders);
+//upload avatar
+router.put(
+  "/:clientId/avatar",
+  authGuard,
+  authGuardClient,
+  uploadImage("avatar"),
+  updateAvatar
+);
 
 module.exports = router;

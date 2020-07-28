@@ -6,6 +6,7 @@ const {
   convertQuery,
   convertUpdateBody,
 } = require("../utils/helper");
+const { deleteImage } = require("../utils/upload");
 
 var ObjectID = require("mongodb").ObjectID;
 
@@ -114,9 +115,32 @@ async function getClientOrders(req, res) {
   return formatResponse(res, { data: orders, pagination });
 }
 
+async function updateAvatar(req, res) {
+  const { clientId } = req.params;
+  if (!req.file) {
+    return formatResponse(res, "Image missing", 400);
+  }
+  const client = await client.findById(clientId).exec();
+
+  if (!client) {
+    await deleteImage(req.file.key);
+    return formatResponse(res, "Client not found", 404);
+  }
+  if (!client.user || client.user._id.toString() !== req.user.id) {
+    await deleteImage(req.file.key);
+    return formatResponse(res, "Access denied", 401);
+  }
+
+  client.photo = req.file.location;
+  await client.save();
+
+  return formatResponse(res, client.photo, 200);
+}
+
 module.exports = {
   getClient,
   addClient,
   updateClient,
   getClientOrders,
+  updateAvatar,
 };

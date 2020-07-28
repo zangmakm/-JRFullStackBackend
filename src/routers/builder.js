@@ -6,8 +6,11 @@ const {
   addBuilder,
   updateBuilder,
   getBuilderOrders,
+  updateAvatar,
 } = require("../controllers/builder");
 const { authGuard, authGuardBuilder } = require("../middlewares/authGuard");
+const { uploadImage } = require("../utils/upload");
+
 //get all
 router.get("/", getAllBuilders);
 //get specified builder
@@ -18,5 +21,13 @@ router.post("/", authGuard, addBuilder);
 router.put("/:builderId", authGuard, authGuardBuilder, updateBuilder);
 //get client orders by status
 router.get("/:builderId/orders", authGuard, authGuardBuilder, getBuilderOrders);
+//upload avatar
+router.put(
+  "/:builderId/avatar",
+  authGuard,
+  authGuardBuilder,
+  uploadImage("avatar"),
+  updateAvatar
+);
 
 module.exports = router;
