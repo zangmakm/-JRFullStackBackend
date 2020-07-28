@@ -2,7 +2,6 @@ const { validateToken } = require("../utils/jwt");
 const { formatResponse } = require("../utils/helper");
 
 function authGuard(req, res, next) {
-  console.log("begin1:");
   const authHeader = req.header("Authorization");
   if (!authHeader) formatResponse(res, "Access Denied", 401);
 
@@ -19,7 +18,6 @@ function authGuard(req, res, next) {
 }
 
 function authGuardClient(req, res, next) {
-  console.log("begin2:");
   const role = req.user.role;
   if (!role === "client") {
     formatResponse(res, "Access Denied", 401);

@@ -116,14 +116,12 @@ async function getClientOrders(req, res) {
 }
 
 async function updateAvatar(req, res) {
-  console.log("begin3:");
   const { clientId } = req.params;
-  console.log("clientId:", clientId);
   console.log("req.file:", req.file);
   if (!req.file) {
     return formatResponse(res, "Image missing", 400);
   }
-  const client = await client.findById(clientId).exec();
+  const client = await clientModel.findById(clientId).exec();
   console.log("client:", client);
   if (!client) {
     await deleteImage(req.file.key);
@@ -137,7 +135,7 @@ async function updateAvatar(req, res) {
   console.log("req.user.id:", req.user.id);
   client.photo = req.file.location;
   console.log("client.photo:", req.file.location);
-  await client.save();
+  await clientModel.save();
 
   return formatResponse(res, client.photo, 200);
 }
