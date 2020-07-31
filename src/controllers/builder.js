@@ -17,7 +17,10 @@ async function getAllBuilders(req, res) {
 
 async function getBuilder(req, res) {
   const { builderId } = req.params;
-  const builder = await builderModel.findById(builderId);
+  const builder = await builderModel
+    .findById(builderId)
+    .populate("comments")
+    .exec();
   if (!builder) {
     return formatResponse(res, "Builder not found", 404);
   }
